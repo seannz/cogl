@@ -1,5 +1,6 @@
 #include "mex.h"
 #include "matrix.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <immintrin.h>
 
@@ -19,6 +20,21 @@ const float cf = - c1 - c3;
 const float cg =      - c3 - c5;
 const float ch =      - c3 + c5;
 const float ci =        c3;
+
+__m256 operator+(const __m256& a, const __m256& b)
+{
+  return _mm256_add_ps(a, b);
+}
+
+__m256 operator-(const __m256& a, const __m256& b)
+{
+  return _mm256_sub_ps(a, b);
+}
+
+__m256 operator*(const __m256& a, const __m256& b)
+{
+  return _mm256_mul_ps(a, b);
+}
 
 void transform(float *img, size_t stride, float* buf)
 {
@@ -59,10 +75,10 @@ void transform(float *img, size_t stride, float* buf)
     z3 = z3 * _mm256_set1_ps(cg) + z5;
     z4 = z4 * _mm256_set1_ps(ch) + z5;
     
-    t4 *= _mm256_set1_ps(ca);
-    t5 *= _mm256_set1_ps(cb);
-    t6 *= _mm256_set1_ps(cc);
-    t7 *= _mm256_set1_ps(cd);
+    t4 = t4 * _mm256_set1_ps(ca);
+    t5 = t5 * _mm256_set1_ps(cb);
+    t6 = t6 * _mm256_set1_ps(cc);
+    t7 = t7 * _mm256_set1_ps(cd);
     
     __m256 o1 = t7 + z1 + z4;
     __m256 o3 = t6 + z2 + z3;
@@ -121,10 +137,10 @@ void transform(float *img, size_t stride, float* buf)
     z3 = z3 * _mm256_set1_ps(cg) + z5;
     z4 = z4 * _mm256_set1_ps(ch) + z5;
     
-    t4 *= _mm256_set1_ps(ca);
-    t5 *= _mm256_set1_ps(cb);
-    t6 *= _mm256_set1_ps(cc);
-    t7 *= _mm256_set1_ps(cd);
+    t4 = t4 * _mm256_set1_ps(ca);
+    t5 = t5 * _mm256_set1_ps(cb);
+    t6 = t6 * _mm256_set1_ps(cc);
+    t7 = t7 * _mm256_set1_ps(cd);
     
     o1 = t7 + z1 + z4;
     o3 = t6 + z2 + z3;
@@ -201,7 +217,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
     float*     vin1;
     float*     vout;
-    int        pics = 1;
+    size_t        pics = 1;
     const mwSize*    dims;
 
     /* Check for proper number of arguments */

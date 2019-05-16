@@ -1,7 +1,23 @@
 #include "mex.h"
 #include "matrix.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <immintrin.h>
+
+__m256 operator+(const __m256& a, const __m256& b)
+{
+  return _mm256_add_ps(a, b);
+}
+
+__m256 operator-(const __m256& a, const __m256& b)
+{
+  return _mm256_sub_ps(a, b);
+}
+
+__m256 operator*(const __m256& a, const __m256& b)
+{
+  return _mm256_mul_ps(a, b);
+}
 
 void transform(float *img, size_t stride, float* buf)
 {
@@ -18,7 +34,7 @@ void transform(float *img, size_t stride, float* buf)
 
     __m256 tmp13 = tmp1 + tmp3;
 /* phases 5-3 */
-    __m256 tmp12 = (tmp1 - tmp3) * _mm256_set1_ps(M_SQRT2) - tmp13; /* 2*c4 */
+    __m256 tmp12 = (tmp1 - tmp3) * _mm256_set1_ps(float(M_SQRT2)) - tmp13; /* 2*c4 */
 
     tmp0 = tmp10 + tmp13;
 /* phase 2 */
@@ -103,7 +119,7 @@ void transform(float *img, size_t stride, float* buf)
 
     tmp13 = tmp1 + tmp3;
 /* phases 5-3 */
-    tmp12 = (tmp1 - tmp3) * _mm256_set1_ps(M_SQRT2) - tmp13; /* 2*c4 */
+    tmp12 = (tmp1 - tmp3) * _mm256_set1_ps(float(M_SQRT2)) - tmp13; /* 2*c4 */
 
     tmp0 = tmp10 + tmp13;
 /* phase 2 */
