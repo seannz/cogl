@@ -4,6 +4,7 @@
 #include <math.h>
 #include <immintrin.h>
 
+#if (defined WIN32)||(defined WIN64)||(defined _WIN32)||(defined _WIN64)
 __m256 operator+(const __m256& a, const __m256& b)
 {
   return _mm256_add_ps(a, b);
@@ -18,6 +19,7 @@ __m256 operator*(const __m256& a, const __m256& b)
 {
   return _mm256_mul_ps(a, b);
 }
+#endif
 
 void transform(float *img, size_t stride, float* buf)
 {
