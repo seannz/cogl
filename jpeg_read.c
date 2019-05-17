@@ -49,8 +49,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <jerror.h>
-#include <jpeglib.h>
+#include "jerror.h"
+#include "jpeglib.h"
 #include <setjmp.h>
 #include "mex.h"
 
@@ -131,7 +131,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   JCOEFPTR bufptr;
   JQUANT_TBL *quant_ptr;
   JHUFF_TBL *huff_ptr;
-  int strlen, c_width, c_height, ci, i, j, n, dims[2];
+  int strlen, c_width, c_height, ci, i, j, n;
+  mwSize dims[2];
   char *filename;
   double *mp, *mptop;
   mxChar *mcp;
