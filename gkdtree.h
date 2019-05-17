@@ -44,13 +44,13 @@ class GKDTree {
 		}
 	    }
 
-	    tree = new GKDTree (ref.channels, points, ref.frames*ref.width*ref.height, 0.15, SPLAT_ACCURACY);
+	    tree = new GKDTree (ref.channels, points, ref.frames*ref.width*ref.height, 0.15f, SPLAT_ACCURACY);
 	    tree->finalize();
 
 	    printf("Caching...\n");
 	    
-	    const float SPLAT_STD_DEV = 0.30156;
-	    const float BLUR_STD_DEV = 0.9045;
+	    const float SPLAT_STD_DEV = 0.30156f;
+	    const float BLUR_STD_DEV = 0.9045f;
 	    
 	    float *refPtr = ref(0, 0, 0);
 
@@ -170,8 +170,19 @@ class GKDTree {
     }
 
     void finalize() {
-	float kdtreeMins[dimensions];
+//Visual studio does not support variable length array
+//It is very unlikely that the supplied image has more than 512 channels
+#if (defined WIN32)||(defined WIN64)||(defined _WIN32)||(defined _WIN64)
+    float kdtreeMins[512];
+	float kdtreeMaxs[512];
+    if (dimensions > 512) 
+        mexErrMsgTxt("Number of channels larger than 512 is unsupported."
+                " Please increase the size of kdtreeMins and kdtreeMaxs "
+                " in gkdtree.h and compile nlmeans_mex.cpp again.\n");
+#else
+    float kdtreeMins[dimensions];
 	float kdtreeMaxs[dimensions];
+#endif
 
 	for (int i = 0; i < dimensions; i++) {
 	    kdtreeMins[i] = -INF;
