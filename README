@@ -25,6 +25,7 @@
 % CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
+
 1. BUILD MEX FILES
 At the matlab prompt, type
 
@@ -42,3 +43,24 @@ At the matlab prompt, type
 
 to run the COGL decoding algorithm on the cameraman image (included
 with the source). The code has been tested under MATLAB R2018B.
+
+3. CITING THE CODE
+If you find this code useful, please cite the following paper:
+
+@article{Young:2019:
+ author = {Young, Sean I. and Naman, Aous T. and Taubman, David},
+ title = {COGL: Coefficient Graph Laplacians for Optimized JPEG Image Decoding},
+ journal = {Trans. Img. Proc.},
+ issue_date = {January 2019},
+ volume = {28},
+ number = {1},
+ month = jan,
+ year = {2019},
+ issn = {1057-7149},
+ pages = {343--355},
+ numpages = {13},
+ url = {https://doi.org/10.1109/TIP.2018.2867943},
+ doi = {10.1109/TIP.2018.2867943},
+ publisher = {IEEE Press},
+ address = {Piscataway, NJ, USA},
+}
