@@ -49,8 +49,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <jerror.h>
-#include <jpeglib.h>
+#include "jerror.h"
+#include "jpeglib.h"
 #include <setjmp.h>
 #include "mex.h"
 
