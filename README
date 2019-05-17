@@ -42,7 +42,9 @@ At the matlab prompt, type
 >> graphmain
 
 to run the COGL decoding algorithm on the cameraman image (included
-with the source). The code has been tested under MATLAB R2018B.
+with the source). The code has been tested under MATLAB R2018B. The
+timing results reported in the paper are based on optimized code.
+
 
 3. CITING THE CODE
 If you find this code useful, please cite the following paper:
