@@ -17,3 +17,4 @@ elseif ispc
 end
 
 mex nlmeans_mex.cpp
+mex nltemps_mex.cpp
