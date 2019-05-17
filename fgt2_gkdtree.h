@@ -22,6 +22,23 @@ static float *rands = NULL;
 
 void doNothing(...) {}
 
+#if (defined WIN32)||(defined WIN64)||(defined _WIN32)||(defined _WIN64)
+__m256 operator+(const __m256& a, const __m256& b)
+{
+  return _mm256_add_ps(a, b);
+}
+
+__m256 operator-(const __m256& a, const __m256& b)
+{
+  return _mm256_sub_ps(a, b);
+}
+
+__m256 operator*(const __m256& a, const __m256& b)
+{
+  return _mm256_mul_ps(a, b);
+}
+#endif
+
 class GKDTree {
 public:
     static int nleaves(Image ref) {
@@ -35,7 +52,7 @@ public:
 	    }
 	}
 	
-	GKDTree tree(ref.channels, points, ref.frames*ref.width*ref.height, 0.15);
+	GKDTree tree(ref.channels, points, ref.frames*ref.width*ref.height, 0.15f);
 	tree.finalize();
 
 	delete[] points;
@@ -62,7 +79,7 @@ public:
 	    }
 	}
 	
-	GKDTree tree(ref.channels, points, ref.frames*ref.width*ref.height, 0.15);
+	GKDTree tree(ref.channels, points, ref.frames*ref.width*ref.height, 0.15f);
 	tree.finalize();
 	numleaves = tree.getLeaves();
 
@@ -72,9 +89,9 @@ public:
 	int BLUR_ACCURACY = 16 + (int)(accuracy*128);
 	int SLICE_ACCURACY = 12 + (int)(accuracy*64);
 
-        const float SPLAT_STD_DEV = 0.30156;
-	const float BLUR_STD_DEV = 0.9045;
-	const float SLICE_STD_DEV = 0.30156;
+    const float SPLAT_STD_DEV = 0.30156f;
+	const float BLUR_STD_DEV = 0.9045f;
+	const float SLICE_STD_DEV = 0.30156f;
 	
 	int numdimens = im.channels;
 	int numpixels = im.frames*im.height*im.width;
@@ -140,9 +157,9 @@ public:
 	int BLUR_ACCURACY = 16 + (int)(accuracy*128);
 	int SLICE_ACCURACY = 12 + (int)(accuracy*64);
 
-        const float SPLAT_STD_DEV = 0.30156;
-	const float BLUR_STD_DEV = 0.9045;
-	const float SLICE_STD_DEV = 0.30156;
+    const float SPLAT_STD_DEV = 0.30156f;
+	const float BLUR_STD_DEV = 0.9045f;
+	const float SLICE_STD_DEV = 0.30156f;
 	
 	int numdimens = im.channels;
 	int numpixels = im.frames*im.height*im.width;
@@ -167,7 +184,7 @@ public:
 		ac4 = _mm256_mul_ps(mul,_mm256_loadu_ps(imPtr+32));
 		ac5 = _mm256_mul_ps(mul,_mm256_loadu_ps(imPtr+40));
 		ac6 = _mm256_mul_ps(mul,_mm256_loadu_ps(imPtr+48));
-		 ac7 = _mm256_mul_ps(mul,_mm256_loadu_ps(imPtr+56));
+		ac7 = _mm256_mul_ps(mul,_mm256_loadu_ps(imPtr+56));
 
 		_mm256_storeu_ps(vPtr+ 0,_mm256_loadu_ps(vPtr+ 0)+ac0);
 		_mm256_storeu_ps(vPtr+ 8,_mm256_loadu_ps(vPtr+ 8)+ac1);
@@ -193,14 +210,14 @@ public:
 	    for (int i = 0; i < blurresults[id]; i++) {
 		float* oldValues = values + ids[i]*numdimens;
 		__m256 mul = _mm256_broadcast_ss(weights+i);
-		ac0 += _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+ 0));
-		ac1 += _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+ 8));
-		ac2 += _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+16));
-		ac3 += _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+24));
-		ac4 += _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+32));
-		ac5 += _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+40));
-		ac6 += _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+48));
-		ac7 += _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+56));
+		ac0 = ac0 + _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+ 0));
+		ac1 = ac1 + _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+ 8));
+		ac2 = ac2 + _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+16));
+		ac3 = ac3 + _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+24));
+		ac4 = ac4 + _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+32));
+		ac5 = ac5 + _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+40));
+		ac6 = ac6 + _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+48));
+		ac7 = ac7 + _mm256_mul_ps(mul,_mm256_loadu_ps(oldValues+56));
 	    }
 
 	    _mm256_storeu_ps(newValues+ 0,ac0);
@@ -229,14 +246,14 @@ public:
 	    for (int i = 0; i < sliceresults[idx]; i++) {
 		float *vPtr = values + indices[i]*numdimens;
 		__m256 mul = _mm256_broadcast_ss(weights+i);
-		ac0 += _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+ 0));
-		ac1 += _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+ 8));
-		ac2 += _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+16));
-		ac3 += _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+24));
-		ac4 += _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+32));
-		ac5 += _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+40));
-		ac6 += _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+48));
-		ac7 += _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+56));
+		ac0 = ac0 + _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+ 0));
+		ac1 = ac1 + _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+ 8));
+		ac2 = ac2 + _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+16));
+		ac3 = ac3 + _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+24));
+		ac4 = ac4 + _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+32));
+		ac5 = ac5 + _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+40));
+		ac6 = ac6 + _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+48));
+		ac7 = ac7 + _mm256_mul_ps(mul,_mm256_loadu_ps(vPtr+56));
 	    }
 
 	    _mm256_storeu_ps(outPtr+ 0,ac0);

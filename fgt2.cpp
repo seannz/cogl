@@ -73,10 +73,10 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
 	if (mxGetNumberOfDimensions(prhs[0]) == 4)
 	{
-	    frames = rdims[3];
+	    frames = (int)rdims[3];
 	}
 
-	numleaves = getleaves(vref,rdims[0],rdims[1],rdims[2],frames);
+	numleaves = getleaves(vref,(int)rdims[0],(int)rdims[1],(int)rdims[2],frames);
 	plhs[0] = mxCreateDoubleMatrix(1,1,mxREAL);
 	*mxGetPr(plhs[0]) = numleaves;
 
@@ -117,10 +117,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
 	if (mxGetNumberOfDimensions(prhs[1]) == 4)
 	{
-	    frames = ddims[3];
+	    frames = (int)ddims[3];
 	}
 
-	numleaves = transform(vin, vref, vout, vdeg, rdims[0], ddims[0], ddims[1], ddims[2], frames, rand,
+	numleaves = transform(vin, vref, vout, vdeg, (int)rdims[0], 
+                  (int)ddims[0], (int)ddims[1], (int)ddims[2], frames, rand,
 			      splatids, splatweights, splatresults,
 			      sliceids, sliceweights, sliceresults,
 			      blurids, blurweights, blurresults,
