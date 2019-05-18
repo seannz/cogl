@@ -50,6 +50,7 @@ values:
 
 For QF= 5, sig=8 tau=44 alp=208
 For QF=10, sig=7 tau=38 alp=128
+For QF=15, sig=5 tau=38 alp=96
 For QF=20, sig=5 tau=36 alp=96
 For QF=30, sig=5 tau=34 alp=80
 For QF=40, sig=4 tau=34 alp=80
