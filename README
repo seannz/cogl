@@ -55,7 +55,12 @@ For QF=20, sig=5 tau=36 alp=96
 For QF=30, sig=5 tau=34 alp=80
 For QF=40, sig=4 tau=34 alp=80
 
-For M-JPEG, one set of parameters where used for all test configuration,
+To run the video denoising code, type
+
+>> graphmpeg
+
+at the matlab prompt. The PSNR results reported in the paper were
+obtained using the same set of parameters for all test configurations
 (i.e., T = 1, 3, or 5, and QF = 10 or 20); these parameters are:
 sig=7 tau=38 rho=2 alp=140.
 
