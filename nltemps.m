@@ -4,6 +4,6 @@ function [out] = nltemps(img,gud,sig_s,sig_t,sig_c,replay)
     end
     img = single(permute(img,[1,2,3,4]));
     gud = single(permute(gud,[1,2,3,4]));
-    out = nltemps_mex(img,gud,sig_s,sig_t,sig_c,replay);
+    out = nltemps_mex(img,gud,sig_t,sig_s,sig_c,replay);
     out = single(permute(out,[1,2,3,4]));
 end

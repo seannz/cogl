@@ -45,11 +45,11 @@ function results = graphmpeg_fun(bandbeta, dim, fileorig, dims, qlt, alp, sig, t
 
     x_hat = zeros(size(yy),'single');
     fct8x8(yy,x_hat);
-    ub = x_hat + repmat(0.5*J.quant_tables{1},[size(x_hat,1)/8,size(x_hat,2)/8,size(x_hat,3)]);
-    lb = x_hat - repmat(0.5*J.quant_tables{1},[size(x_hat,1)/8,size(x_hat,2)/8,size(x_hat,3)]);
+    ub = x_hat + repmat(0.5*J.quant_tables{1},size(x_hat)./[8,8,1]);
+    lb = x_hat - repmat(0.5*J.quant_tables{1},size(x_hat)./[8,8,1]);
 
     xiQ2x_hat = blockproc(x_hat,[8,8],@(block) block.data .* xiQ2x);
-    IxiQ2_inv = repmat(1./(1 + xiQ2x),[size(x_hat,1)/8,size(x_hat,2)/8,size(x_hat,3)]);
+    IxiQ2_inv = repmat(1./(1 + xiQ2x),size(x_hat)./[8,8,1]);
 
     ref = bsxfun(@times,Hx(zig(1:dim),:,:,:),1.0./psi);
 
@@ -99,11 +99,11 @@ function results = graphmpeg_fun(bandbeta, dim, fileorig, dims, qlt, alp, sig, t
         theta = k/(k+3);
         x = u{1+p} + theta*(u{1+p}-u{2-p});
 
-        results(k+1, 1) = psnr(min(max(u{2-p}(:,:,tgt_idx),-128),127),v_orig(:,:,tgt_idx),255);
-        results(k+1, 2) = ssim(min(max(u{2-p}(:,:,tgt_idx)+128,0),255),v_orig(:,:,tgt_idx)+128,'DynamicRange',255);
+        results(k+1, 1) = psnr(min(max(x(:,:,tgt_idx),-128),127),v_orig(:,:,tgt_idx),255);
+        results(k+1, 2) = ssim(min(max(x(:,:,tgt_idx)+128,0),255),v_orig(:,:,tgt_idx)+128,'DynamicRange',255);
         if show
             fprintf('%3d %6.4f %1.4f\n', k+1, results(k+1,1), results(k+1,2));
         end        
     end
-    imwrite(u{2-p}(:,:,tgt_idx) / 255 + 0.5, [img_name 'end.png']);
+    imwrite(x(:,:,tgt_idx)/255 + 0.5, [img_name 'end.png']);
 end
