@@ -55,6 +55,13 @@ For QF=20, sig=5 tau=36 alp=96
 For QF=30, sig=5 tau=34 alp=80
 For QF=40, sig=4 tau=34 alp=80
 
+To run the video denoising code, type
+
+>> graphmpeg
+
+at the matlab prompt. The PSNR results reported in the paper used
+the same parameter values as those above, and rho=2.
+
 3. CITING THE CODE
 If you find this code useful, please cite the following paper:
 
