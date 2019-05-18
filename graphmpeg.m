@@ -16,7 +16,7 @@ tau = 38.000;
 alp = 140.00;
 qlt = 10.000; % quantization factor
 dim = [10,0,0];
-frames = 3;
+frames = 3; % the group of pictures size (T)
 frskip = 0;
 % % end tunatble parameters
 
