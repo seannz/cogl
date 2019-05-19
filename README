@@ -24,7 +24,13 @@
 % CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 % CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+0. HARDWARE REQUIREMENTS
 
+A machine that supports AVX. For Intel, this means 2nd gen Core machine 
+(Sandy Bridge) or later, i.e., a chip model starting with 2 or greater,
+such as i5-2500 all the way up to the latest i9-9900K. The 2nd gen core
+machines first appeared in 2010-2011. Machines bought after that should
+be fine.
 
 1. BUILD MEX FILES
 At the matlab prompt, type
