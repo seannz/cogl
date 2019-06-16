@@ -30,9 +30,9 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     float* vgud = (float*) mxGetData(prhs[1]);
     float* vout = (float*) mxGetData(plhs[0]);
 
-    Image input(1, (int) img_s[2], (int) img_s[1], (int) img_s[0], vimg);
-    Image guide(1, (int) gud_s[2], (int) gud_s[1], (int) gud_s[0], vgud);
-    Image image(1, (int) img_s[2], (int) img_s[1], (int) img_s[0], vout);
+    Image input(1, (int) img_s[1], (int) img_s[2], (int) img_s[0], vimg);
+    Image guide(1, (int) gud_s[1], (int) gud_s[2], (int) gud_s[0], vgud);
+    Image image(1, (int) img_s[1], (int) img_s[2], (int) img_s[0], vout);
 
     Image positions(guide.frames, guide.width, guide.height, guide.channels + 2);
     for (int f = 0; f < guide.frames; f++) { 
